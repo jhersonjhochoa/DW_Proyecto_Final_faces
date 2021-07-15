@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+  <ui:composition template="/template/template.xhtml" >
+    <ui:define name="titulo">Listado Usuarios</ui:define>
+    <ui:define name="breadcrumb-titulo">Usuarios</ui:define>
+    <!-- crud section -->
+    <ui:define name="crud-header">
+      <h:commandButton class="btn btn-primary" value="Agregar" actionListener="#{managedUsuario.init()}">
+        <f:setPropertyActionListener target="#{manageItemTitle}" value="Agregar Usuario" />
+        <f:ajax event="click" render="manageItemForm" onevent="showManageModal(true)" />
+      </h:commandButton>
+    </ui:define>
+    <ui:define name="crud-body">
+      <ui:repeat value="#{managedUsuario.mensajes}" var="msg">
+        <div class="alert alert-#{msg.tipo}" role="alert">
+          <h:outputText value="#{msg.mensaje}" />
+        </div>
+      </ui:repeat>
+      <h:dataTable value="#{managedUsuario.listaUsuario}" var="u" class="table table-bordered table-hover table-sm">
+        <h:column>
+          <f:facet name="header">Rol</f:facet>
+          <h:outputText value="#{u.rol.descripcion}"></h:outputText>
+        </h:column>
+        <h:column>
+          <f:facet name="header">Nombre</f:facet>
+          <h:outputText value="#{u.nombre}"></h:outputText>
+        </h:column>
+        <h:column>
+          <f:facet name="header">Apellido</f:facet>
+          <h:outputText value="#{u.apellido}"></h:outputText>
+        </h:column>
+        <h:column>
+          <f:facet name="header">Teléfono</f:facet>
+          <h:outputText value="#{u.telefono}"></h:outputText>
+        </h:column>
+        <h:column>
+          <f:facet name="header">Documento</f:facet>
+          <h:outputText value="#{u.documento}"></h:outputText>
+        </h:column>
+        <h:column>
+          <f:facet name="header">Username</f:facet>
+          <h:outputText value="#{u.user}"></h:outputText>
+        </h:column>
+        <h:column>
+          <f:facet name="header">Opciones</f:facet>
+          <h:commandButton class="btn btn-sm btn-secondary" value="M" actionListener="#{managedUsuario.loadData(u)}">
+            <f:setPropertyActionListener target="#{manageItemTitle}" value="Editar Usuario" />
+            <f:ajax event="click" render="manageItemForm" onevent="showManageModal(true)" />
+          </h:commandButton>
+          <h:commandButton class="btn btn-sm btn-danger ml-1" value="E" actionListener="#{managedUsuario.loadData(u)}">
+            <f:ajax event="click" render="deleteItemForm" onevent="showDeleteModal(true)"/>
+          </h:commandButton>
+        </h:column>
+      </h:dataTable>
+    </ui:define>
+    <!-- delete section -->
+    <ui:define name="deleteItem-title">¿Eliminar Usuario?</ui:define>
+    <ui:define name="deleteItem-body">
+      <p>Confirmar si desea eliminar el usuario <b><h:outputText value="#{managedUsuario.usuario.user}" /></b></p>
+    </ui:define>
+    <ui:define name="deleteItem-footer">
+      <h:commandButton class="btn btn-outline-danger" value="Eliminar" actionListener="#{managedUsuario.delete()}">
+        <f:ajax execute="@this" event="click" render="crud-body" onevent="showDeleteModal(false)" />
+      </h:commandButton>
+    </ui:define>
+    <!-- manage section -->
+    <ui:define name="manageItem-body">
+      <div class="form-group">
+        <h:outputLabel value="Nombre del autor"></h:outputLabel>
+        <h:selectOneMenu class="form-control" value="#{managedUsuario.rolUsuario.id}" required="">
+          <f:selectItems value="#{managedRolUsuario.listaRolUsuario}" var="ru"
+                         itemLabel="#{ru.descripcion}" itemValue="#{ru.id}">
+          </f:selectItems>
+        </h:selectOneMenu>
+      </div>
+      <div class="form-group">
+        <label>Nombre:</label>
+        <h:inputText class="form-control" value="#{managedUsuario.usuario.nombre}" required="" />
+      </div>
+      <div class="form-group">
+        <label>Apellido:</label>
+        <h:inputText class="form-control" value="#{managedUsuario.usuario.apellido}" required="" />
+      </div>
+      <div class="form-group">
+        <label>Telefono:</label>
+        <h:inputText class="form-control" value="#{managedUsuario.usuario.telefono}" required="" />
+      </div>
+      <div class="form-group">
+        <label>Documento:</label>
+        <h:inputText class="form-control" value="#{managedUsuario.usuario.documento}" required="" />
+      </div>
+      <div class="form-group">
+        <label>Username:</label>
+        <h:inputText class="form-control" value="#{managedUsuario.usuario.user}" required="" />
+      </div>
+    </ui:define>
+    <ui:define name="manageItem-footer">
+      <h:commandButton class="btn btn-outline-info" value="Guardar" actionListener="#{managedUsuario.save()}">
+        <f:ajax execute="@form" event="click" render="crud-body" onevent="showManageModal(false)" />
+      </h:commandButton>
+    </ui:define>
+  </ui:composition>
+</html>
+

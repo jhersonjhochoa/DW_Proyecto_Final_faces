@@ -1,0 +1,161 @@
+﻿<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+  <h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AdminLTE 3 | Blank Page</title>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback" />
+    <!-- Font Awesome -->
+    <h:outputStylesheet name="adminlte/plugins/fontawesome-free/css/all.min.css" /> 
+    <!-- Theme style -->
+    <h:outputStylesheet name="adminlte/css/adminlte.min.css" /> 
+  </h:head>
+  <h:body class="hold-transition sidebar-mini">
+    <!-- Navbar -->
+    <ui:include src="/template/comps/navbar.xml"></ui:include>
+
+    <!-- Main Sidebar Container -->
+    <ui:include src="/template/comps/sidebar.xhtml"></ui:include>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1><ui:insert name="titulo">Blank Page</ui:insert></h1>
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">
+                  <ui:insert name="breadcrumb-titulo">
+                    <ui:insert name="titulo">Blank Page</ui:insert>
+                  </ui:insert>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+
+      <!-- Main content -->
+      <section class="content">
+
+        <!-- Default box -->
+        <ui:insert name="content">
+          <!-- Default CRUD box -->
+          <div class="card">
+            <div class="card-header">
+              <ui:insert name="crud-header">
+                <button id="addItem" class="my-0 btn-sm btn btn-primary">Agregar</button>
+              </ui:insert>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <h:panelGroup class="card-body" layout="block" id="crud-body"> <!-- force jsf div for updating -->
+              <ui:insert name="crud-body">Blank Card</ui:insert>
+            </h:panelGroup>
+            <!-- /.card-body -->
+            <div class="card-footer">
+              <ui:insert name="crud-footer">
+                <a href="javascript:location.reload()" class="my-0 btn-sm btn btn-secondary">Actualizar</a>
+              </ui:insert>
+            </div>
+            <!-- /.card-footer-->
+          </div>
+          <!-- /.card -->
+        </ui:insert>
+        <!-- /.card -->
+
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <div class="modal fade" id="deleteItem">
+      <h:form id="deleteItemForm">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">
+                <ui:insert name="deleteItem-title">¿Eliminar Item?</ui:insert>
+              </h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <ui:insert name="deleteItem-body"></ui:insert>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+              <ui:insert name="deleteItem-footer"></ui:insert>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+      </h:form>
+      <!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="manageItem">
+      <h:form id="manageItemForm">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">
+                <h:outputText value="#{manageItemTitle}" />
+              </h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <ui:insert name="manageItem-body"></ui:insert>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+              <ui:insert name="manageItem-footer"></ui:insert>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+
+        </div>
+
+      </h:form>
+      <!-- /.modal-dialog -->
+    </div>
+
+
+    <ui:include src="/template/comps/footer.xml"></ui:include>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+
+    <!-- jQuery -->
+    <h:outputScript name="adminlte/plugins/jquery/jquery.min.js" target="head" />
+    <!-- Bootstrap 4 -->
+    <h:outputScript name="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js" target="head"  />
+    <!-- AdminLTE App -->
+    <h:outputScript name="adminlte/js/adminlte.min.js" target="head" />
+
+    <h:outputScript name="js/custom.js" target="head" />
+  </h:body>
+</html>
+

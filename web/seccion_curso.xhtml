@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+  <ui:composition template="/template/template.xhtml" >
+    <ui:define name="titulo">Asociar curso a sección</ui:define>
+    <ui:define name="breadcrumb-titulo">Curso Sección</ui:define>
+    <!-- crud section -->
+    <ui:define name="crud-header">
+      <h:commandButton class="btn btn-primary" value="Agregar" actionListener="#{managedSeccionCurso.init()}">
+        <f:setPropertyActionListener target="#{manageItemTitle}" value="Agregar Curso" />
+        <f:ajax event="click" render="manageItemForm" onevent="showManageModal(true)" />
+      </h:commandButton>
+    </ui:define>
+    <ui:define name="crud-body">
+      <ui:repeat value="#{managedSeccionCurso.mensajes}" var="msg">
+        <div class="alert alert-#{msg.tipo}" role="alert">
+          <h:outputText value="#{msg.mensaje}" />
+        </div>
+      </ui:repeat>
+      <h:dataTable value="#{managedSeccionCurso.listaSeccionCurso}" var="sc" class="table table-bordered table-hover table-sm">
+        <h:column>
+          <f:facet name="header">Curso</f:facet>
+          <h:outputText value="#{sc.curso.nombre}"></h:outputText>
+        </h:column>
+        <h:column>
+          <f:facet name="header">Docente</f:facet>
+          <h:outputText value="#{sc.docente.fullName}"></h:outputText>
+        </h:column>
+        <h:column>
+          <f:facet name="header">Opciones</f:facet>
+          <h:commandButton class="btn btn-sm btn-secondary" value="M" actionListener="#{managedSeccionCurso.loadData(sc)}">
+            <f:setPropertyActionListener target="#{manageItemTitle}" value="Editar Registro" />
+            <f:ajax event="click" render="manageItemForm" onevent="showManageModal(true)" />
+          </h:commandButton>
+          <h:commandButton class="btn btn-sm btn-danger ml-1" value="E" actionListener="#{managedSeccionCurso.loadData(sc)}">
+            <f:ajax event="click" render="deleteItemForm" onevent="showDeleteModal(true)"/>
+          </h:commandButton>
+        </h:column>
+      </h:dataTable>
+    </ui:define>
+    <!-- delete section -->
+    <ui:define name="deleteItem-title">¿Quitar Curso?</ui:define>
+    <ui:define name="deleteItem-body">
+      <p>Confirmar si desea quitar el curso <b><h:outputText value="#{managedSeccionCurso.curso.nombre}" /></b> de la sección <b><h:outputText value="#{managedSeccionCurso.seccion.fullDescripcion}" /></b></p>
+    </ui:define>
+    <ui:define name="deleteItem-footer">
+      <h:commandButton class="btn btn-outline-danger" value="Eliminar" actionListener="#{managedSeccionCurso.delete()}">
+        <f:ajax execute="@this" event="click" render="crud-body" onevent="showDeleteModal(false)" />
+      </h:commandButton>
+    </ui:define>
+    <!-- manage section -->
+    <ui:define name="manageItem-body">
+      <div class="form-group">
+        <h:outputLabel value="Curso:"></h:outputLabel>
+        <h:selectOneMenu class="form-control" value="#{managedSeccionCurso.curso.id}" required="">
+          <f:selectItems value="#{managedCurso.listaCurso}" var="c"
+                         itemLabel="#{c.nombre}" itemValue="#{c.id}">
+          </f:selectItems>
+        </h:selectOneMenu>
+      </div>
+    </ui:define>
+    <ui:define name="manageItem-footer">
+      <h:commandButton class="btn btn-outline-info" value="Guardar" actionListener="#{managedSeccionCurso.save()}">
+        <f:ajax execute="@form" event="click" render="crud-body" onevent="showManageModal(false)" />
+      </h:commandButton>
+    </ui:define>
+  </ui:composition>
+</html>
+

@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+  <ui:composition template="/template/template.xhtml" >
+    <ui:define name="titulo">Listado Secciones</ui:define>
+    <ui:define name="breadcrumb-titulo">Secciones</ui:define>
+    <!-- crud section -->
+    <ui:define name="crud-header">
+      <h:commandButton class="btn btn-primary" value="Agregar" actionListener="#{managedSeccion.init()}">
+        <f:setPropertyActionListener target="#{manageItemTitle}" value="Agregar Sección" />
+        <f:ajax event="click" render="manageItemForm" onevent="showManageModal(true)" />
+      </h:commandButton>
+    </ui:define>
+    <ui:define name="crud-body">
+      <ui:repeat value="#{managedSeccion.mensajes}" var="msg">
+        <div class="alert alert-#{msg.tipo}" role="alert">
+          <h:outputText value="#{msg.mensaje}" />
+        </div>
+      </ui:repeat>
+      <h:dataTable value="#{managedSeccion.listaSeccion}" var="s" class="table table-bordered table-hover table-sm">
+        <h:column>
+          <f:facet name="header">Grado</f:facet>
+          <h:outputText value="#{s.grado.descripcion}"></h:outputText>
+        </h:column>
+        <h:column>
+          <f:facet name="header">Descripción</f:facet>
+          <h:outputText value="#{s.descripcion}"></h:outputText>
+        </h:column>
+        <h:column>
+          <f:facet name="header">Año</f:facet>
+          <h:outputText value="#{s.anio}"></h:outputText>
+        </h:column>
+        <h:column>
+          <f:facet name="header">Opciones</f:facet>
+          <h:commandButton class="btn btn-sm btn-secondary" value="M" actionListener="#{managedSeccion.loadData(s)}">
+            <f:setPropertyActionListener target="#{manageItemTitle}" value="Editar Sección" />
+            <f:ajax event="click" render="manageItemForm" onevent="showManageModal(true)" />
+          </h:commandButton>
+          <h:commandButton class="btn btn-sm btn-danger ml-1" value="E" actionListener="#{managedSeccion.loadData(s)}">
+            <f:ajax event="click" render="deleteItemForm" onevent="showDeleteModal(true)"/>
+          </h:commandButton>
+        </h:column>
+      </h:dataTable>
+    </ui:define>
+    <!-- delete section -->
+    <ui:define name="deleteItem-title">¿Eliminar Sección?</ui:define>
+    <ui:define name="deleteItem-body">
+      <p>Confirmar si desea eliminar la sección <b><h:outputText value="#{managedSeccion.seccion.fullDescripcion}" /></b></p>
+    </ui:define>
+    <ui:define name="deleteItem-footer">
+      <h:commandButton class="btn btn-outline-danger" value="Eliminar" actionListener="#{managedSeccion.delete()}">
+        <f:ajax execute="@this" event="click" render="crud-body" onevent="showDeleteModal(false)" />
+      </h:commandButton>
+    </ui:define>
+    <!-- manage section -->
+    <ui:define name="manageItem-body">
+      <div class="form-group">
+        <h:outputLabel value="Grado:"></h:outputLabel>
+        <h:selectOneMenu class="form-control" value="#{managedSeccion.grado.id}" required="">
+          <f:selectItems value="#{managedGrado.listaGrado}" var="g"
+                         itemLabel="#{g.descripcion}" itemValue="#{g.id}">
+          </f:selectItems>
+        </h:selectOneMenu>
+      </div>
+      <div class="form-group">
+        <label>Descripcion:</label>
+        <h:inputText class="form-control" value="#{managedSeccion.seccion.descripcion}" required="" />
+      </div>
+      <div class="form-group">
+        <label>Año:</label>
+        <h:inputText class="form-control" value="#{managedSeccion.seccion.anio}" required="" />
+      </div>
+    </ui:define>
+    <ui:define name="manageItem-footer">
+      <h:commandButton class="btn btn-outline-info" value="Guardar" actionListener="#{managedSeccion.save()}">
+        <f:ajax execute="@form" event="click" render="crud-body" onevent="showManageModal(false)" />
+      </h:commandButton>
+    </ui:define>
+  </ui:composition>
+</html>
+
