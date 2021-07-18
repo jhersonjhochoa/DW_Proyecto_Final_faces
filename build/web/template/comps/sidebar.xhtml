@@ -77,21 +77,21 @@
           </li>
 
           <li class="nav-item">
-            <a href="AlumnoSeccion" class="nav-link">
+            <h:link outcome="/alumno_seccion" class="nav-link #{current eq '/alumno_seccion' ? 'active' : ''}">
               <i class="nav-icon fas fa-user-plus"></i>
               <p>
                 Agregar alumno a sección
               </p>
-            </a>
+            </h:link>
           </li>
 
           <li class="nav-item">
-            <a href="SeccionCurso" class="nav-link">
+            <h:link outcome="/seccion_curso" class="nav-link #{current eq '/seccion_curso' ? 'active' : ''}">
               <i class="nav-icon fas fa-folder-plus"></i>
               <p>
                 Agregar curso a sección
               </p>
-            </a>
+            </h:link>
           </li>
 
 
@@ -99,12 +99,12 @@
           <li class="nav-header">ÁREA DOCENTE</li>
 
           <li class="nav-item">
-            <a href="Evaluacion" class="nav-link">
+            <h:link outcome="/evaluaciones" class="nav-link #{current eq '/evaluaciones' ? 'active' : ''}">
               <i class="nav-icon fas fa-pencil-alt"></i>
               <p>
                 Evaluaciones
               </p>
-            </a>
+            </h:link>
           </li>
 
           <li class="nav-header">ÁREA ALUMNOS</li>

@@ -60,6 +60,7 @@ public class ManagedCurso {
     }
     
     public void save() {
+        this.mensajes = new ArrayList<>();
         if (curso.getId() == null) {
             cursoFacade.create(curso);
             mensajes.add(new Mensaje("success", "Curso agregado correctamente."));
@@ -75,6 +76,7 @@ public class ManagedCurso {
     }
     
     public void loadData(Curso c) {
+        this.mensajes = new ArrayList<>();
         this.curso = c;
     }
 }

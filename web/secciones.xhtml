@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
   <ui:composition template="/template/template.xhtml" >
     <ui:define name="titulo">Listado Secciones</ui:define>
     <ui:define name="breadcrumb-titulo">Secciones</ui:define>
@@ -20,6 +21,7 @@
           <h:outputText value="#{msg.mensaje}" />
         </div>
       </ui:repeat>
+      <h:messages></h:messages>
       <h:dataTable value="#{managedSeccion.listaSeccion}" var="s" class="table table-bordered table-hover table-sm">
         <h:column>
           <f:facet name="header">Grado</f:facet>
@@ -31,14 +33,19 @@
         </h:column>
         <h:column>
           <f:facet name="header">Año</f:facet>
-          <h:outputText value="#{s.anio}"></h:outputText>
+          <h:outputText  value="#{s.anio}" ></h:outputText>
         </h:column>
         <h:column>
           <f:facet name="header">Opciones</f:facet>
-          <h:commandButton class="btn btn-sm btn-secondary" value="M" actionListener="#{managedSeccion.loadData(s)}">
+          <h:commandButton class="btn btn-sm btn-secondary" value="M" action="#{managedSeccion.loadData(s)}" >
             <f:setPropertyActionListener target="#{manageItemTitle}" value="Editar Sección" />
             <f:ajax event="click" render="manageItemForm" onevent="showManageModal(true)" />
           </h:commandButton>
+
+          <p:commandButton icon="fas fa-edit" class="btn btn-sm btn-tool" value="v" action="#{managedSeccion.loadData(s)}" process=":manageItemForm" update=":manageItemForm" oncomplete="showManageModal(true)" >
+            <f:viewParam name="manageItemTitle" value="Editar Secciónxx" />
+            <f:setPropertyActionListener target="#{manageItemTitle}" value="Editar Sección" />
+          </p:commandButton>
           <h:commandButton class="btn btn-sm btn-danger ml-1" value="E" actionListener="#{managedSeccion.loadData(s)}">
             <f:ajax event="click" render="deleteItemForm" onevent="showDeleteModal(true)"/>
           </h:commandButton>
@@ -48,7 +55,7 @@
     <!-- delete section -->
     <ui:define name="deleteItem-title">¿Eliminar Sección?</ui:define>
     <ui:define name="deleteItem-body">
-      <p>Confirmar si desea eliminar la sección <b><h:outputText value="#{managedSeccion.seccion.fullDescripcion}" /></b></p>
+      <p>Confirmar si desea eliminar la sección <b><h:outputText value="#{managedSeccion.seccion.grado.grado} - #{managedSeccion.seccion.descripcion} #{managedSeccion.seccion.grado.nivel.descripcion}" /></b></p>
     </ui:define>
     <ui:define name="deleteItem-footer">
       <h:commandButton class="btn btn-outline-danger" value="Eliminar" actionListener="#{managedSeccion.delete()}">
@@ -64,6 +71,7 @@
                          itemLabel="#{g.descripcion}" itemValue="#{g.id}">
           </f:selectItems>
         </h:selectOneMenu>
+        <h:messages></h:messages>
       </div>
       <div class="form-group">
         <label>Descripcion:</label>
@@ -71,7 +79,7 @@
       </div>
       <div class="form-group">
         <label>Año:</label>
-        <h:inputText class="form-control" value="#{managedSeccion.seccion.anio}" required="" />
+        <p:inputText type="number" class="form-control" value="#{managedSeccion.seccion.anio}" required="" size="4"/>
       </div>
     </ui:define>
     <ui:define name="manageItem-footer">

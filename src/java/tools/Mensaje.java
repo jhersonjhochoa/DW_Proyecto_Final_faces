@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author Jhonatan
  */
-public class Mensaje implements Serializable{
+public class Mensaje implements Serializable {
     private String tipo;
     private String mensaje;
 

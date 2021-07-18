@@ -12,6 +12,8 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.view.facelets.Facelet;
 import modelo.Grado;
 import modelo.Seccion;
 import tools.Mensaje;
@@ -31,6 +33,7 @@ public class ManagedSeccion {
     private List<Mensaje> mensajes;
 
     public List<Seccion> getListaSeccion() {
+        this.listaSeccion = seccionFacade.findAll();
         return listaSeccion;
     }
 
@@ -65,10 +68,12 @@ public class ManagedSeccion {
     @PostConstruct
     public void init() {
         this.seccion = new Seccion();
+        this.grado = new Grado();
         this.mensajes = new ArrayList<>();
     }
     
     public void save() {
+        this.mensajes = new ArrayList<>();
         seccion.setGrado(grado);
         if (seccion.getId() == null) {
             seccionFacade.create(seccion);
@@ -85,7 +90,16 @@ public class ManagedSeccion {
     }
     
     public void loadData(Seccion s) {
+        String version = FacesContext.class.getPackage().getImplementationVersion();
+        System.out.println("version: " + version);
+        System.out.println("JSF API Location: " + FacesContext.class.getProtectionDomain().getCodeSource());
+        System.out.println("JSF Impl Location: " + Facelet.class.getProtectionDomain().getCodeSource());
+        this.mensajes = new ArrayList<>();
         this.grado.setId(s.getGrado().getId());
         this.seccion = s;        
     }
+    
+
+    
+    
 }

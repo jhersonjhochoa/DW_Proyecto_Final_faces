@@ -31,6 +31,7 @@ public class ManagedGrado {
     private List<Mensaje> mensajes;
 
     public List<Grado> getListaGrado() {
+        this.listaGrado = gradoFacade.findAll();
         return listaGrado;
     }
 
@@ -70,6 +71,7 @@ public class ManagedGrado {
     }
     
     public void save() {
+        this.mensajes = new ArrayList<>();
         if (grado.getId() == null) {
             gradoFacade.create(grado);
             mensajes.add(new Mensaje("success", "Grado agregado correctamente."));
@@ -85,6 +87,7 @@ public class ManagedGrado {
     }
     
     public void loadData(Grado g) {
+        this.mensajes = new ArrayList<>();
         this.nivel.setId(g.getNivel().getId());
         this.grado = g;
     }

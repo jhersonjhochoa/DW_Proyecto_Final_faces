@@ -6,6 +6,7 @@
 package modelo;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -63,6 +64,7 @@ public class Seccion implements Serializable {
     private Collection<AlumnoSeccion> alumnoSeccionCollection;
 
     public Seccion() {
+        anio = Calendar.getInstance().get(Calendar.YEAR);
     }
 
     public Seccion(Integer id) {
@@ -123,10 +125,6 @@ public class Seccion implements Serializable {
 
     public void setAlumnoSeccionCollection(Collection<AlumnoSeccion> alumnoSeccionCollection) {
         this.alumnoSeccionCollection = alumnoSeccionCollection;
-    }
-    
-    public String getFullDescripcion() {
-        return grado.getGrado() + "-" + descripcion + " " + grado.getNivel().getDescripcion();
     }
 
     @Override

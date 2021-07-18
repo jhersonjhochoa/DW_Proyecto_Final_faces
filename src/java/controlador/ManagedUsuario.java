@@ -72,6 +72,7 @@ public class ManagedUsuario {
     }
 
     public void save() {
+        this.mensajes = new ArrayList<>();
         RolUsuario rol_anterior = usuario.getRol();
         usuario.setRol(rolUsuario);
         if (usuario.getId() == null) {
