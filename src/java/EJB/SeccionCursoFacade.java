@@ -5,9 +5,15 @@
  */
 package EJB;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import modelo.AlumnoSeccion;
+import modelo.Seccion;
 import modelo.SeccionCurso;
 
 /**
@@ -27,6 +33,19 @@ public class SeccionCursoFacade extends AbstractFacade<SeccionCurso> implements 
 
     public SeccionCursoFacade() {
         super(SeccionCurso.class);
+    }
+    
+    private CriteriaBuilder getCb() {
+        return getEntityManager().getCriteriaBuilder();
+    }
+
+    @Override
+    public List<AlumnoSeccion> findBySeccion(int s) {
+        CriteriaQuery cq = getCb().createQuery();
+        Root<SeccionCurso> from = cq.from(SeccionCurso.class);
+        cq.select(from);
+        cq.where(getCb().equal(from.<Integer>get("seccion"), s));
+        return getEntityManager().createQuery(cq).getResultList();
     }
     
 }

@@ -39,6 +39,10 @@ public class ManagedSeccion {
         y_start = Calendar.getInstance().get(Calendar.YEAR);
         y_end = y_start + 1;
     }
+    
+    public List<Seccion> getListaTotal() {
+        return seccionFacade.findAll();
+    }
 
     public List<Seccion> getListaSeccion() {
         this.listaSeccion = seccionFacade.findByYears(y_start, y_end);

@@ -7,6 +7,8 @@ package EJB;
 
 import java.util.List;
 import javax.ejb.Local;
+import modelo.AlumnoSeccion;
+import modelo.Seccion;
 import modelo.SeccionCurso;
 
 /**
@@ -27,6 +29,8 @@ public interface SeccionCursoFacadeLocal {
     List<SeccionCurso> findAll();
 
     List<SeccionCurso> findRange(int[] range);
+
+    List<AlumnoSeccion> findBySeccion(int s);
 
     int count();
     

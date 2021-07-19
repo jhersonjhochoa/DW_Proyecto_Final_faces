@@ -14,13 +14,32 @@
         <f:ajax event="click" render="manageItemForm" onevent="showManageModal(true)" />
       </h:commandButton>
     </ui:define>
+    <ui:define name="crud-filters">
+      <div class="row">
+        <div class="col-md-4 col-12">
+          <h:form>
+            <div class="form-group">
+              <label>Seleccionar Sección:</label>
+
+              <h:selectOneMenu class="form-control" value="#{managedAlumnoSeccion.f_seccion}" required="" valueChangeListener="#{managedAlumnoSeccion.init()}">
+                <f:selectItem itemLabel="Seleccione..." itemValue="#{0}"></f:selectItem>
+                <f:selectItems value="#{managedSeccion.listaTotal}" var="s"
+                               itemLabel="#{s.grado.grado}-#{s.descripcion} #{s.grado.nivel.descripcion}" itemValue="#{s.id}">
+                </f:selectItems>
+                <f:ajax execute="@form" event="change" render=":crud-body"  />
+              </h:selectOneMenu>
+            </div>
+          </h:form>
+        </div>
+      </div>
+    </ui:define>
     <ui:define name="crud-body">
       <ui:repeat value="#{managedAlumnoSeccion.mensajes}" var="msg">
         <div class="alert alert-#{msg.tipo}" role="alert">
           <h:outputText value="#{msg.mensaje}" />
         </div>
       </ui:repeat>
-      <h:dataTable value="#{managedAlumnoSeccion.listaAlumnoSeccion}" var="as" class="table table-bordered table-hover table-sm">
+      <h:dataTable rendered="#{managedAlumnoSeccion.listaAlumnoSeccion.size() > 0}" value="#{managedAlumnoSeccion.listaAlumnoSeccion}" var="as" class="table table-bordered table-hover table-sm">
         <h:column>
           <f:facet name="header">Nombre</f:facet>
           <h:outputText value="#{as.alumno.nombre}"></h:outputText>
@@ -48,7 +67,7 @@
     <!-- delete section -->
     <ui:define name="deleteItem-title">¿Quitar Alumno?</ui:define>
     <ui:define name="deleteItem-body">
-      <p>Confirmar si desea quitar el alumno <b><h:outputText value="#{managedAlumnoSeccion.alumno.fullName}" /></b> de la sección <b><h:outputText value="#{managedAlumnoSeccion.seccion.fullDescripcion}" /></b></p>
+      <p>Confirmar si desea quitar el alumno <b><h:outputText value="#{managedAlumnoSeccion.alumnoSeccion.alumno.fullName}" /></b> de la sección <b><h:outputText value="#{managedAlumnoSeccion.alumnoSeccion.seccion.grado.grado} - #{managedAlumnoSeccion.alumnoSeccion.seccion.descripcion} #{managedAlumnoSeccion.alumnoSeccion.seccion.grado.nivel.descripcion}" /></b></p>
     </ui:define>
     <ui:define name="deleteItem-footer">
       <h:commandButton class="btn btn-outline-danger" value="Eliminar" actionListener="#{managedAlumnoSeccion.delete()}">
