@@ -25,6 +25,8 @@ public interface SeccionFacadeLocal {
     Seccion find(Object id);
 
     List<Seccion> findAll();
+    
+    List<Seccion> findByYears(int y_start, int y_end);
 
     List<Seccion> findRange(int[] range);
 

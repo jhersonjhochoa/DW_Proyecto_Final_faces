@@ -65,9 +65,12 @@
                 </button>
               </div>
             </div>
-            <h:panelGroup class="card-body" layout="block" id="crud-body"> <!-- force jsf div for updating -->
-              <ui:insert name="crud-body">Blank Card</ui:insert>
-            </h:panelGroup>
+            <div class="card-body">
+              <ui:insert name="crud-filters"></ui:insert>
+              <h:panelGroup layout="block" id="crud-body"> <!-- force jsf div for updating -->
+                <ui:insert name="crud-body">Blank Card</ui:insert>
+              </h:panelGroup>
+            </div>
             <!-- /.card-body -->
             <div class="card-footer">
               <ui:insert name="crud-footer">

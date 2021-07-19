@@ -15,13 +15,36 @@
         <f:ajax event="click" render="manageItemForm" onevent="showManageModal(true)" />
       </h:commandButton>
     </ui:define>
+    <ui:define name="crud-filters">
+      <h:form>
+        <div class="row">
+          <div class="col-12">
+            <h4>Seleccionar años:</h4>
+            <hr class="mt-0" />
+          </div>
+          <div class="form-group col-md-2 col-6">
+            <label>Desde</label>
+            <p:inputText type="number" value="#{managedSeccion.y_start}" class="form-control" />
+          </div>
+          <div class="form-group col-md-2 col-6">
+            <label>Hasta</label>
+            <p:inputText type="number" value="#{managedSeccion.y_end}" class="form-control" />
+          </div>
+          <div class="form-group col-12">
+            <h:commandButton  class="btn btn-sm btn-outline-secondary" value="Filtrar" actionListener="#{managedSeccion.init()}" >
+              <f:ajax  execute="@form" event="click" render=":crud-body" />
+            </h:commandButton>
+          </div>
+          <div class="col-12"><hr class="mt-0"/></div>
+        </div>
+      </h:form>
+    </ui:define>
     <ui:define name="crud-body">
       <ui:repeat value="#{managedSeccion.mensajes}" var="msg">
         <div class="alert alert-#{msg.tipo}" role="alert">
           <h:outputText value="#{msg.mensaje}" />
         </div>
       </ui:repeat>
-      <h:messages></h:messages>
       <h:dataTable value="#{managedSeccion.listaSeccion}" var="s" class="table table-bordered table-hover table-sm">
         <h:column>
           <f:facet name="header">Grado</f:facet>
@@ -41,11 +64,6 @@
             <f:setPropertyActionListener target="#{manageItemTitle}" value="Editar Sección" />
             <f:ajax event="click" render="manageItemForm" onevent="showManageModal(true)" />
           </h:commandButton>
-
-          <p:commandButton icon="fas fa-edit" class="btn btn-sm btn-tool" value="v" action="#{managedSeccion.loadData(s)}" process=":manageItemForm" update=":manageItemForm" oncomplete="showManageModal(true)" >
-            <f:viewParam name="manageItemTitle" value="Editar Secciónxx" />
-            <f:setPropertyActionListener target="#{manageItemTitle}" value="Editar Sección" />
-          </p:commandButton>
           <h:commandButton class="btn btn-sm btn-danger ml-1" value="E" actionListener="#{managedSeccion.loadData(s)}">
             <f:ajax event="click" render="deleteItemForm" onevent="showDeleteModal(true)"/>
           </h:commandButton>
@@ -71,7 +89,6 @@
                          itemLabel="#{g.descripcion}" itemValue="#{g.id}">
           </f:selectItems>
         </h:selectOneMenu>
-        <h:messages></h:messages>
       </div>
       <div class="form-group">
         <label>Descripcion:</label>

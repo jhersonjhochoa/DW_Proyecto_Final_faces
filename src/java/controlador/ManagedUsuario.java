@@ -35,7 +35,7 @@ public class ManagedUsuario {
         listaUsuario = usuarioFacade.findAll();
         return listaUsuario;
     }
-
+    
     public void setListaUsuario(List<Usuario> listaUsuario) {
         this.listaUsuario = listaUsuario;
     }
@@ -85,7 +85,7 @@ public class ManagedUsuario {
                     mensajes.add(new Mensaje("warning", "Se omitió la actualización del Rol. El alumno está matriculado en una o más secciones."));
                     usuario.setRol(rol_anterior);
                 } else if (!usuario.getSeccionCursoCollection().isEmpty()) {
-                    mensajes.add(new Mensaje("danger", "Se omitió la actualización del Rol. El docente está asignado en una o más secciones."));
+                    mensajes.add(new Mensaje("warning", "Se omitió la actualización del Rol. El docente está asignado en una o más secciones."));
                     usuario.setRol(rol_anterior);
                 }
             }

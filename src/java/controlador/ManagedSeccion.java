@@ -7,6 +7,7 @@ package controlador;
 
 import EJB.SeccionFacadeLocal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -31,9 +32,16 @@ public class ManagedSeccion {
     private Seccion seccion;
     private Grado grado;
     private List<Mensaje> mensajes;
+    private int y_start;
+    private int y_end;
+
+    public ManagedSeccion() {
+        y_start = Calendar.getInstance().get(Calendar.YEAR);
+        y_end = y_start + 1;
+    }
 
     public List<Seccion> getListaSeccion() {
-        this.listaSeccion = seccionFacade.findAll();
+        this.listaSeccion = seccionFacade.findByYears(y_start, y_end);
         return listaSeccion;
     }
 
@@ -63,6 +71,22 @@ public class ManagedSeccion {
 
     public void setGrado(Grado grado) {
         this.grado = grado;
+    }
+    
+    public int getY_start() {
+        return y_start;
+    }
+
+    public void setY_start(int y_start) {
+        this.y_start = y_start;
+    }
+
+    public int getY_end() {
+        return y_end;
+    }
+
+    public void setY_end(int y_end) {
+        this.y_end = y_end;
     }
     
     @PostConstruct
@@ -97,9 +121,6 @@ public class ManagedSeccion {
         this.mensajes = new ArrayList<>();
         this.grado.setId(s.getGrado().getId());
         this.seccion = s;        
-    }
-    
-
-    
+    }   
     
 }
