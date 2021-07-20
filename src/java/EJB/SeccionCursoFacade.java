@@ -40,11 +40,11 @@ public class SeccionCursoFacade extends AbstractFacade<SeccionCurso> implements 
     }
 
     @Override
-    public List<AlumnoSeccion> findBySeccion(int s) {
+    public List<SeccionCurso> findBySeccion(int s) {
         CriteriaQuery cq = getCb().createQuery();
         Root<SeccionCurso> from = cq.from(SeccionCurso.class);
         cq.select(from);
-        cq.where(getCb().equal(from.<Integer>get("seccion"), s));
+        cq.where(getCb().equal(from.<Seccion>get("seccion"), new Seccion(s)));
         return getEntityManager().createQuery(cq).getResultList();
     }
     

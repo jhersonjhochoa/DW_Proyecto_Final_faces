@@ -74,7 +74,7 @@ public class ManagedUsuario {
     public void save() {
         this.mensajes = new ArrayList<>();
         RolUsuario rol_anterior = usuario.getRol();
-        usuario.setRol(rolUsuario);
+        usuario.setRol(new RolUsuario(rolUsuario.getId()));
         if (usuario.getId() == null) {
             usuario.setPassword(usuario.getDocumento());
             usuarioFacade.create(usuario);

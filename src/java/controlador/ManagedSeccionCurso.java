@@ -5,7 +5,9 @@
  */
 package controlador;
 
+import EJB.CursoFacadeLocal;
 import EJB.SeccionCursoFacadeLocal;
+import EJB.UsuarioFacadeLocal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -25,16 +27,22 @@ import tools.Mensaje;
 @ManagedBean
 @SessionScoped
 public class ManagedSeccionCurso {
+
     @EJB
     private SeccionCursoFacadeLocal seccionCursoFacade;
+    @EJB
+    private CursoFacadeLocal cursooFacade;
     private List<SeccionCurso> listaSeccionCurso;
     private SeccionCurso seccionCurso;
     private Curso curso;
     private Seccion seccion;
     private Usuario docente;
+    private int f_seccion;
     private List<Mensaje> mensajes;
 
     public List<SeccionCurso> getListaSeccionCurso() {
+        this.listaSeccionCurso = seccionCursoFacade.findBySeccion(f_seccion);
+        System.out.println("sec: " + f_seccion);
         return listaSeccionCurso;
     }
 
@@ -81,17 +89,30 @@ public class ManagedSeccionCurso {
     public void setMensajes(List<Mensaje> mensajes) {
         this.mensajes = mensajes;
     }
-    
+
+    public int getF_seccion() {
+        return f_seccion;
+    }
+
+    public void setF_seccion(int f_seccion) {
+        this.f_seccion = f_seccion;
+    }
+
     @PostConstruct
     public void init() {
+        System.out.println("init called");
         this.seccionCurso = new SeccionCurso();
         this.curso = new Curso();
         this.seccion = new Seccion();
         this.docente = new Usuario();
         this.mensajes = new ArrayList<>();
     }
-    
+
     public void save() {
+        this.mensajes = new ArrayList<>();
+        this.seccionCurso.setSeccion(new Seccion(f_seccion));
+        this.seccionCurso.setCurso(new Curso(curso.getId()));
+        this.seccionCurso.setDocente(new Usuario(docente.getId()));
         if (seccionCurso.getId() == null) {
             seccionCursoFacade.create(seccionCurso);
             mensajes.add(new Mensaje("success", "Curso agregado a la sección correctamente."));
@@ -100,16 +121,18 @@ public class ManagedSeccionCurso {
             mensajes.add(new Mensaje("success", "Registro actualizado correctamente."));
         }
     }
-    
+
     public void delete() {
         seccionCursoFacade.remove(seccionCurso);
         mensajes.add(new Mensaje("success", "Curso retirado de la sección correctamente."));
     }
-    
+
     public void loadData(SeccionCurso sc) {
+        this.mensajes = new ArrayList<>();
         this.curso.setId(sc.getCurso().getId());
-        this.seccion.setId(sc.getSeccion().getId());
+        this.seccion.setId(f_seccion);
         this.docente.setId(sc.getDocente().getId());
         this.seccionCurso = sc;
     }
+
 }

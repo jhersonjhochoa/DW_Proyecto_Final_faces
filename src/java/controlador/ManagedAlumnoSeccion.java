@@ -112,7 +112,7 @@ public class ManagedAlumnoSeccion {
     public void save() {
         this.mensajes = new ArrayList<>();
         alumno = usuarioFacade.findByDocumento(alumno.getDocumento());
-        alumnoSeccion.setAlumno(alumno);
+        alumnoSeccion.setAlumno(new Usuario(alumno.getId()));
         alumnoSeccion.setSeccion(new Seccion(f_seccion));
         alumnoSeccion.setOrdenMertio(0);
         alumnoSeccion.setPromedio(BigDecimal.ZERO);

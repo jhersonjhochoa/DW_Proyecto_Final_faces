@@ -30,7 +30,7 @@ public interface SeccionCursoFacadeLocal {
 
     List<SeccionCurso> findRange(int[] range);
 
-    List<AlumnoSeccion> findBySeccion(int s);
+    List<SeccionCurso> findBySeccion(int s);
 
     int count();
     

@@ -102,7 +102,7 @@ public class ManagedSeccion {
     
     public void save() {
         this.mensajes = new ArrayList<>();
-        seccion.setGrado(grado);
+        seccion.setGrado(new Grado(grado.getId()));
         if (seccion.getId() == null) {
             seccionFacade.create(seccion);
             mensajes.add(new Mensaje("success", "Seccion agregada correctamente."));

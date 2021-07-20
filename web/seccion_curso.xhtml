@@ -14,6 +14,25 @@
         <f:ajax event="click" render="manageItemForm" onevent="showManageModal(true)" />
       </h:commandButton>
     </ui:define>
+    <ui:define name="crud-filters">
+      <div class="row">
+        <div class="col-md-4 col-12">
+          <h:form>
+            <div class="form-group">
+              <label>Seleccionar Sección:</label>
+
+              <h:selectOneMenu class="form-control" value="#{managedSeccionCurso.f_seccion}" required="" valueChangeListener="#{managedSeccionCurso.init()}">
+                <f:selectItem itemLabel="Seleccione..." itemValue="#{0}"></f:selectItem>
+                <f:selectItems value="#{managedSeccion.listaTotal}" var="s"
+                               itemLabel="#{s.grado.grado}-#{s.descripcion} #{s.grado.nivel.descripcion}" itemValue="#{s.id}">
+                </f:selectItems>
+                <f:ajax execute="@form" event="change" render=":crud-body"  />
+              </h:selectOneMenu>
+            </div>
+          </h:form>
+        </div>
+      </div>
+    </ui:define>
     <ui:define name="crud-body">
       <ui:repeat value="#{managedSeccionCurso.mensajes}" var="msg">
         <div class="alert alert-#{msg.tipo}" role="alert">
@@ -44,7 +63,7 @@
     <!-- delete section -->
     <ui:define name="deleteItem-title">¿Quitar Curso?</ui:define>
     <ui:define name="deleteItem-body">
-      <p>Confirmar si desea quitar el curso <b><h:outputText value="#{managedSeccionCurso.curso.nombre}" /></b> de la sección <b><h:outputText value="#{managedSeccionCurso.seccion.fullDescripcion}" /></b></p>
+      <p>Confirmar si desea quitar el curso <b><h:outputText value="#{managedSeccionCurso.curso.nombre}" /></b> de la sección <b><h:outputText value="#{managedSeccionCurso.seccionCurso.seccion.grado.grado} - #{managedSeccionCurso.seccionCurso.seccion.descripcion} #{managedSeccionCurso.seccionCurso.seccion.grado.nivel.descripcion}" /></b></p>
     </ui:define>
     <ui:define name="deleteItem-footer">
       <h:commandButton class="btn btn-outline-danger" value="Eliminar" actionListener="#{managedSeccionCurso.delete()}">
@@ -58,6 +77,14 @@
         <h:selectOneMenu class="form-control" value="#{managedSeccionCurso.curso.id}" required="">
           <f:selectItems value="#{managedCurso.listaCurso}" var="c"
                          itemLabel="#{c.nombre}" itemValue="#{c.id}">
+          </f:selectItems>
+        </h:selectOneMenu>
+      </div>
+      <div class="form-group">
+        <h:outputLabel value="Docente:"></h:outputLabel>
+        <h:selectOneMenu class="form-control" value="#{managedSeccionCurso.docente.id}" required="">
+          <f:selectItems value="#{managedUsuario.listaUsuario}" var="u"
+                         itemLabel="#{u.fullName}" itemValue="#{u.id}">
           </f:selectItems>
         </h:selectOneMenu>
       </div>
